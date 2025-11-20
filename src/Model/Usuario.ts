@@ -1,7 +1,7 @@
 export default interface Usuario{
-    id: number, 
+    id?: number, 
     nome: string,
     email: string, 
     senha: string,
-    dataCriacao: Date
+    dataCriacao?: Date
 }

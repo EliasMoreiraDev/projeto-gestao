@@ -3,7 +3,8 @@ interface Conta {
     nome: string,
     descricao: string,
     saldoInicial: number,
-    dataCriacao: Date
+    titular: number,
+    dataCriacao?: Date
 }
 
 export default Conta;

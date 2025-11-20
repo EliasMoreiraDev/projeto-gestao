@@ -49,8 +49,10 @@ export async function dbInit() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT UNIQUE NOT NULL,
         descricao TEXT,
+        usuario_id INTEGER NOT NULL,
         saldo_inicial REAL NOT NULL DEFAULT 0.00,
-        data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP
+        data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         );
 
         CREATE TABLE transacoes (
@@ -74,7 +76,6 @@ export async function dbInit() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         transacao_id INTEGER NOT NULL,
         tag_id INTEGER NOT NULL,
-        PRIMARY KEY (id),
         FOREIGN KEY (transacao_id) REFERENCES transacoes(id) ON DELETE CASCADE,
         FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
         );
@@ -133,8 +134,8 @@ export async function cadastrar_categoria(categoria: Categorias) {
 export async function cadastrar_conta(conta: Conta) {
     const db = await dbPromisse;
     await db.run(
-        "INSERT INTO contas (nome, descricao, saldo_inicial) VALUES (?, ?, ?)",
-        conta.nome, conta.descricao, conta.saldoInicial
+        "INSERT INTO contas (nome, descricao, usuario_id, saldo_inicial) VALUES (?, ?, ?, ?)",
+        conta.nome, conta.descricao, conta.titular, conta.saldoInicial
     );
 }
 

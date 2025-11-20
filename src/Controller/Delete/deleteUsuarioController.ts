@@ -3,9 +3,9 @@ import Usuario from "../../Model/Usuario"
 import { cadastrar_log, delete_usuario } from "../../Repository/db"
 import { deleteLogController } from "../Cadastros/LogController"
 
-export async function deleteUsuarioController(usuario: Usuario, usuario_logado: number){
+export async function deleteUsuarioController(id: number, usuario_logado: number){
     try{
-        delete_usuario(usuario.id)
+        delete_usuario(id)
         deleteLogController(usuario_logado)
         console.log("Usuário deletado com sucesso!")
     }catch(err){
