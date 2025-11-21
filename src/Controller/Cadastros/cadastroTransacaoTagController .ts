@@ -2,7 +2,7 @@ import TransacaoTag from "../../Model/TransacaoTag"
 import { cadastrar_transacaoTag} from "../../Repository/db"
 import { cadastroLogController } from "./LogController"
 
-export async function cadastroCategoriaController(transacaoTag: TransacaoTag, usuario_logado: number){
+export async function cadastroTransacaoTagController(transacaoTag: TransacaoTag, usuario_logado: number){
     try{
         cadastrar_transacaoTag(transacaoTag)
         cadastroLogController(usuario_logado)

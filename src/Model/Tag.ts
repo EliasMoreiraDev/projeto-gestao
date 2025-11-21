@@ -1,5 +1,5 @@
 interface Tag {
-    id: number,
+    id?: number,
     nome: string
 }
 
