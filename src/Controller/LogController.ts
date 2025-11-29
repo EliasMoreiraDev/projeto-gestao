@@ -1,5 +1,5 @@
-import Log from "../../Model/Log"
-import { cadastrar_log } from "../../Repository/db"
+import Log from "../Model/Log"
+import { cadastrar_log } from "../Repository/db"
 
 export async function cadastroLogController(usuario_logado: number, identificador?:string){
     try{

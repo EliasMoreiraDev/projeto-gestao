@@ -95,7 +95,7 @@ export async function cadastrar_transacao(transacao: Transacao){
     const db = await dbPromisse
     await db.run(
         "insert into transacoes (descricao,valor,data,tipo,categoria_id,conta_id) values (?,?,?,?,?,?)",
-        transacao.descricao,transacao.valor,transacao.data,transacao.tipo,transacao.categoriaId,transacao.contaId
+        transacao.descricao,transacao.valor,transacao.dataTransacao,transacao.tipo,transacao.categoriaId,transacao.contaId
     )
 }
 
@@ -135,7 +135,7 @@ export async function cadastrar_conta(conta: Conta) {
     const db = await dbPromisse;
     await db.run(
         "INSERT INTO contas (nome, descricao, usuario_id, saldo_inicial) VALUES (?, ?, ?, ?)",
-        conta.nome, conta.descricao, conta.titular, conta.saldoInicial
+        conta.nome, conta.descricao, conta.titular, conta.saldo
     );
 }
 
@@ -156,15 +156,15 @@ export async function update_conta(id: number, nome: string, descricao: string, 
     );
 }
 
-export async function update_transacao(transacao: Transacao) {
+export async function update_usuario(idUsuario: number, nome: string, email: string) {
     const db = await dbPromisse;
     await db.run(
-        "UPDATE transacoes SET descricao = ?, valor = ?, data = ?, tipo = ?, categoria_id = ?, conta_id = ? WHERE id = ?;",
-        transacao.descricao, transacao.valor, transacao.data, transacao.tipo, transacao.categoriaId, transacao.contaId, transacao.id
+        "UPDATE usuarios SET nome = ?, email = ? WHERE id = ?;",
+        nome, email, idUsuario
     );
 }
 
-
+    
 export async function delete_tag(tag: Tag){
     const db = await dbPromisse
     await db.run(
@@ -253,4 +253,30 @@ export async function listar_todas_tags(): Promise<Tag[]> {
 export async function listar_todas_transacoes_tags(): Promise<TransacaoTag[]> {
     const db = await dbPromisse;
     return db.all<TransacaoTag[]>("SELECT * FROM transacoes_tags");
+}
+export async function listar_categoria_por_id(id: number): Promise<Categorias | undefined> {
+    const db = await dbPromisse;
+    return db.get<Categorias>("SELECT * FROM categorias WHERE id = ?", id);
+}
+export async function listar_contas_por_usuario_id(id: number): Promise<Conta[] | undefined> {
+    const db = await dbPromisse;
+    return db.all<Conta[]>("SELECT * FROM contas WHERE usuario_id = ?", id);
+}
+export async function listar_transacoes_por_usuario_id(usuarioId: number): Promise<Transacao[] | undefined> {
+    const db = await dbPromisse;
+    return db.all<Transacao[]>(
+        `SELECT t.* FROM transacoes t
+         JOIN contas c ON t.conta_id = c.id`,
+        usuarioId
+    );
+}
+
+export async function listar_usuario_por_id(id: number): Promise<Usuario | undefined> {
+    const db = await dbPromisse;
+    return db.get<Usuario>("SELECT * FROM usuarios WHERE id = ?", id);
+}
+
+export async function listar_usuario_por_email(email: string): Promise<Usuario | undefined> {
+    const db = await dbPromisse;
+    return db.get<Usuario>("SELECT * FROM usuarios WHERE email = ?", email);
 }

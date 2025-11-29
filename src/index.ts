@@ -1,32 +1,49 @@
-import { cadastroUsuarioController } from "./Controller/Cadastros/cadastroUsuarioController";
-import Usuario from "./Model/Usuario";
-import cadastroContaController from "./Controller/Cadastros/cadastroContaController";
-import deleteUsuarioController from "./Controller/Delete/deleteUsuarioController";
-import deleteContaController from "./Controller/Delete/deleteContaController";
-import Tag from "./Model/Tag";
-import { cadastroTagController } from "./Controller/Cadastros/cadastroTagController";
+import { menuCategoria } from "./Controller/CategoriaController";
+import { menuConta } from "./Controller/ContaController";
+import { menuTag } from "./Controller/TagController";
+import { menuTransacao } from "./Controller/TransacaoController";
+import { login, menuUsuario } from "./Controller/UsuarioController";
+import PromptSync from 'prompt-sync';
 
+const prompt = PromptSync();
 
-const usuario1: Usuario = {
-    nome: "Elias Moreira",
-    email: "elias@gmail.com",
-    senha: "123456"
+async function menuPrincipal() {
+    while (true) {
+        const usuarioLogadoId = await login();
+        if (usuarioLogadoId) {
+            console.log('\n=== MENU PRINCIPAL ===');
+            console.log('1 - Usuário');
+            console.log('2 - Conta');
+            console.log('3 - Categoria');
+            console.log('4 - Tag');
+            console.log('5 - Transação');
+            console.log('0 - Sair');
+            const opt = prompt('Escolha uma opção: ');
+
+            switch (opt) {
+                case '1':
+                    await menuUsuario();
+                    break;
+                case '2':
+                    await menuConta();
+                    break;
+                case '3':
+                    await menuCategoria();
+                    break;
+                case '4':
+                    await menuTag();
+                    break;
+                case '5':
+                    await menuTransacao();
+                    break;
+                case '0':
+                    console.log('Saindo...');
+                    process.exit(0);
+                default:
+                    console.log('Opção inválida.');
+            }
+        }
+    }
 }
 
-
-//cadastroUsuarioController(usuario1, 1);
-//deleteUsuarioController(2, 1)
-
-const conta1 = {
-    nome: "Conta Nubank Corrente",
-    descricao: "Conta corrente do Elias",
-    titular: 2,
-    saldoInicial: 1000
-}
-//cadastroContaController(conta1, 1);
-//deleteContaController(1, 2)
-
-const tag1: Tag = {
-    nome: "Viagem de Natal"
-}
-cadastroTagController(tag1, 1)
+menuPrincipal();

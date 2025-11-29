@@ -1,13 +1,14 @@
 import tipoCategoria from "./enums/tipoCategoria";
 
 interface Transacao {
-    id: number,
+    id?: number,
     descricao: string,
     valor: number,
-    data: Date,
+    dataTransacao: Date,
     tipo: tipoCategoria,
     categoriaId: number,
-    contaId: number
+    contaId: number,
+    tags: string[]
 }
 
 export default Transacao;

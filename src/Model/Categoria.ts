@@ -1,8 +1,8 @@
-import TipoGasto from "./enums/tipoCategoria";
+import TipoCategoria from "./enums/tipoCategoria";
 
 export default interface Categorias{
     id?: number,
     nome:string,
-    tipo: TipoGasto
-    dataCriacao: Date
+    tipo: TipoCategoria,
+    dataCriacao?: Date
 }

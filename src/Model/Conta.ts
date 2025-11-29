@@ -2,7 +2,7 @@ interface Conta {
     id?: number,
     nome: string,
     descricao: string,
-    saldoInicial: number,
+    saldo: number,
     titular: number,
     dataCriacao?: Date
 }
