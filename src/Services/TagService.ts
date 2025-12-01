@@ -1,6 +1,6 @@
-import { cadastroLogController } from "../Controller/LogController";
+import { cadastroLogController, deleteLogController } from "../Controller/LogController";
 import Tag from "../Model/Tag";
-import { cadastrar_tag, listar_todas_tags } from "../Repository/db";
+import { cadastrar_tag, delete_tag, listar_todas_tags } from "../Repository/db";
 
 
 export async function CadastrarTagService(tag: Tag, usuarioLogadoId: number) {
@@ -22,6 +22,7 @@ export async function DeletarTagService(idTag: number, usuarioLogadoId: number) 
         if(!tagUsadaTransacao.find(tag => tag.id === idTag)){
             return console.log("Tag não encontrada.");
         }
-        await cadastroLogController(usuarioLogadoId);
+        await delete_tag(idTag);
+        await deleteLogController(usuarioLogadoId);
     
 }

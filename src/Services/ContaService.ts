@@ -1,6 +1,6 @@
-import { cadastroLogController } from "../Controller/LogController";
+import { cadastroLogController, deleteLogController } from "../Controller/LogController";
 import Conta from "../Model/Conta";
-import { cadastrar_conta, listar_contas_por_usuario_id, listar_todas_contas, listar_todas_transacoes } from "../Repository/db";
+import { cadastrar_conta, delete_conta, listar_contas_por_usuario_id, listar_todas_contas, listar_todas_transacoes } from "../Repository/db";
 
 export async function CadastrarContaService(conta: Conta, usuarioLogadoId: number) {
         if(conta.saldo < 0) {
@@ -24,7 +24,8 @@ export async function DeletarContaService(idConta: number, usuarioLogadoId: numb
     }else if(contaUsadaTransacao.find(transacao => transacao.contaId === idConta)) {
         return console.log("Não é possível deletar uma conta que está sendo usada em uma transação.");
     }
-    await cadastroLogController(usuarioLogadoId);
+    await delete_conta(idConta);
+    await deleteLogController(usuarioLogadoId);
 
 }
 export async function ListarContaUsuarioService(usuarioId: number) {

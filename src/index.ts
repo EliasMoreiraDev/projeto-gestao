@@ -22,19 +22,19 @@ async function menuPrincipal() {
 
             switch (opt) {
                 case '1':
-                    await menuUsuario();
+                    await menuUsuario(usuarioLogadoId);
                     break;
                 case '2':
-                    await menuConta();
+                    await menuConta(usuarioLogadoId);
                     break;
                 case '3':
-                    await menuCategoria();
+                    await menuCategoria(usuarioLogadoId);
                     break;
                 case '4':
-                    await menuTag();
+                    await menuTag(usuarioLogadoId);
                     break;
                 case '5':
-                    await menuTransacao();
+                    await menuTransacao(usuarioLogadoId);
                     break;
                 case '0':
                     console.log('Saindo...');

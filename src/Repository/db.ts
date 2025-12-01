@@ -47,7 +47,7 @@ export async function dbInit() {
 
         CREATE TABLE contas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT UNIQUE NOT NULL,
+        nome TEXT NOT NULL,
         descricao TEXT,
         usuario_id INTEGER NOT NULL,
         saldo_inicial REAL NOT NULL DEFAULT 0.00,
@@ -79,9 +79,12 @@ export async function dbInit() {
         FOREIGN KEY (transacao_id) REFERENCES transacoes(id) ON DELETE CASCADE,
         FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
         );
+
+        insert into usuarios (nome, email, senha) values ('Admin', 'admin@admin', 'admin123');
         `
     );
 }
+dbInit();
 
 export async function cadastrar_tag(tag: Tag){
     const db = await dbPromisse
@@ -118,7 +121,7 @@ export async function cadastrar_usuario(usuario: Usuario){
 export async function cadastrar_log(log: Log) {
     const db = await dbPromisse;
     await db.run(
-        "INSERT INTO logs (usuario_id, acao, detalhes) VALUES (?, ?, ?, ?)",
+        "INSERT INTO logs (usuario_id, acao, detalhes) VALUES (?, ?, ?)",
         log.usuarioId, log.acao, log.detalhes
     );
 }
@@ -165,11 +168,11 @@ export async function update_usuario(idUsuario: number, nome: string, email: str
 }
 
     
-export async function delete_tag(tag: Tag){
+export async function delete_tag(tag: number){
     const db = await dbPromisse
     await db.run(
         "DELETE FROM tags WHERE id = ?;",
-        tag.id
+        tag
     )
 }
 

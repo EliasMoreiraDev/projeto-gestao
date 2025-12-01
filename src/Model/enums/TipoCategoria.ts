@@ -1,4 +1,4 @@
 enum tipoCategoria {
-    RECEITA = 'RECEITA',
-    DESPESA = 'DESPESA'
+    RECEITA = 'Receita',
+    DESPESA = 'Despesa'
 }export default tipoCategoria

@@ -7,16 +7,18 @@ import PromptSync from 'prompt-sync';
 const prompt = PromptSync();
 
 
-export async function menuTransacao() {
+export async function menuTransacao(usuarioLogadoId: number) {
     while (true) {
         console.log('\n=== Menu de Transações ===');
         console.log('1 - Cadastrar Transação');
+        console.log('2 - Listar Minhas Transações');
+        console.log('3 - Deletar Transação');
         console.log('0 - Voltar');
         const opt = prompt('Escolha: ');
         switch (opt) {
-            case '1': await cadastrar(); break;
-            case '2': await listar(); break;
-            case '3': await deletar(); break;
+            case '1': await cadastrar(usuarioLogadoId); break;
+            case '2': await listar(usuarioLogadoId); break;
+            case '3': await deletar(usuarioLogadoId); break;
             case '0': return;
             default: console.log('Opção inválida.');
         }
@@ -35,13 +37,13 @@ function validarData(data: string): boolean {
         return (dataObj.getFullYear() === ano && dataObj.getMonth() === mes && dataObj.getDate() === dia);
     }
 }
-export async function cadastrar() {
+export async function cadastrar(usuarioLogadoId: number) {
     try {
         const contaId = Number(prompt('ID da Conta: '));
         const tipoInput = prompt('Tipo (1 - Receita / 2 - Despesa): ');
         if (tipoInput !== '1' && tipoInput !== '2') {
             console.error('Erro: Tipo inválido. Use 1 para Receita ou 2 para Despesa.');
-            return cadastrar();
+            return cadastrar(usuarioLogadoId);
         }
         const tipo = tipoInput === '1' ? tipoCategoria.RECEITA : tipoCategoria.DESPESA;
         const categoriaId = Number(prompt('ID da Categoria: '));
@@ -50,32 +52,33 @@ export async function cadastrar() {
        
         if (!validarData(dataTransacao)) {
             console.error('Erro: Data inválida. Use o formato YYYY-MM-DD.');
-            return cadastrar();
+            return cadastrar(usuarioLogadoId);
         }
         const tagsInput = prompt('Tags (separadas por vírgula): ');
         const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()) : [];
          
         const descricao: any = prompt('Descrição: ');
         const transacao: Transacao = { contaId, categoriaId, valor, tipo, dataTransacao, descricao, tags };
-        await CadastrarTransacaoService(transacao, 1);
+        await CadastrarTransacaoService(transacao, usuarioLogadoId);
     } catch (err: any) {
         console.error('Erro ao cadastrar:', err.message);
     }
 }
 
-export async function deletar() {
+export async function deletar(usuarioLogadoId: number) {
     try {
         const id = Number(prompt('Id da transação a deletar: '));
-        await DeletarTransacaoService(id, 1);
+        await DeletarTransacaoService(id, usuarioLogadoId);
         console.log('Transação deletada.');
     } catch (err: any) {
         console.error('Erro ao deletar:', err.message);
     }
 }
-export async function listar() {
+export async function listar(usuarioLogadoId: number) {
     try {
             try {
-                const transacoes = await ListarTransacaoUsuarioService(1);
+                const transacoes = await ListarTransacaoUsuarioService(usuarioLogadoId);
+                
                 console.table(transacoes);
             } catch (err: any) {
                 console.error('Erro ao listar:', err.message);

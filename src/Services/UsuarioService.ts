@@ -1,4 +1,4 @@
-import { cadastroLogController } from "../Controller/LogController";
+import { cadastroLogController, deleteLogController } from "../Controller/LogController";
 import Usuario from "../Model/Usuario";
 import { cadastrar_usuario, listar_todos_usuarios, delete_usuario, listar_usuario_por_id, update_usuario, listar_usuario_por_email } from "../Repository/db";
 import bcrypt from 'bcrypt';
@@ -21,9 +21,11 @@ export async function CadastrarUsuarioService(usuario: Usuario, usuarioLogadoId:
 export async function ListarUsuariosService() {
     return await listar_todos_usuarios()
 }
+
 export async function ListarUsuarioPorId(idUsuario: number) {
     return await listar_usuario_por_id(idUsuario);
 }
+
 export async function deletarUsuarioService(idUsuario: number, usuarioLogadoId: number) {
     const usuarios = await listar_todos_usuarios();
     if(!usuarios.find(user => user.id === idUsuario)){
@@ -31,7 +33,7 @@ export async function deletarUsuarioService(idUsuario: number, usuarioLogadoId: 
     }
     await delete_usuario(idUsuario);
 
-    await cadastroLogController(usuarioLogadoId);
+    await deleteLogController(usuarioLogadoId);
 }
 
 export async function UpdateUsuarioService(idUsuario: number, nome:string, email:string, usuarioLogadoId: number) {

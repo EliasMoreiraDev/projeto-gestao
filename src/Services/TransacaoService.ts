@@ -1,4 +1,4 @@
-import { cadastroLogController } from "../Controller/LogController";
+import { cadastroLogController, deleteLogController } from "../Controller/LogController";
 import Transacao from "../Model/Transacao";
 import { cadastrar_transacao, delete_transacao, delete_transacaoTag, listar_todas_transacoes_tags, listar_transacoes_por_usuario_id } from "../Repository/db";
 
@@ -31,5 +31,5 @@ export async function DeletarTransacaoService(idTransacao: number, usuarioLogado
     }  
     await delete_transacao(idTransacao);
     
-    await cadastroLogController(usuarioLogadoId);
+    await deleteLogController(usuarioLogadoId);
 }

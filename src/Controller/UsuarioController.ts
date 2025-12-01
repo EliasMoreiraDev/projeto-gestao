@@ -5,7 +5,7 @@ import PromptSync from 'prompt-sync';
 const prompt = PromptSync();
 
 
-export async function menuUsuario() {
+export async function menuUsuario(usuarioLogadoId: number) {
     while (true) {
         console.log('\n--- Menu Usuário ---');
         console.log('1 - Cadastro');
@@ -16,11 +16,11 @@ export async function menuUsuario() {
         console.log('0 - Voltar');
         const opt = prompt('Escolha: ');
         switch (opt) {
-            case '1': await cadastro(); break;
+            case '1': await cadastro(usuarioLogadoId); break;
             case '2': await listar(); break;
             case '3': await listarPorId(); break;
-            case '4': await atualizar(); break;
-            case '5': await deletar(); break;
+            case '4': await atualizar(usuarioLogadoId); break;
+            case '5': await deletar(usuarioLogadoId); break;
             case '6': await login(); break;
             case '0': return;
             default: console.log('Opção inválida.');
@@ -28,13 +28,13 @@ export async function menuUsuario() {
     }
 }
 
-export async function cadastro() {
+export async function cadastro(usuarioLogadoId: number) {
     try {
         const nome = prompt('Nome: ');
         const email = prompt('Email: ');
         const senha = prompt.hide('Senha: ');
         const novoUsuario: Usuario = { nome, email, senha };
-        const user = await UsuarioService.CadastrarUsuarioService(novoUsuario, 1);
+        await UsuarioService.CadastrarUsuarioService(novoUsuario, usuarioLogadoId);
         console.log('Usuário criado com sucesso!');
     } catch (err: any) {
         console.error('Erro ao cadastrar:', err.message);
@@ -69,24 +69,24 @@ export async function listarPorId() {
     }
 }
 
-export async function atualizar() {
+export async function atualizar(usuarioLogadoId: number) {
     try {
         const id = Number(prompt('Id do usuário a atualizar: '));
         
         const nome = prompt('Novo nome (enter para manter): ');
         const email = prompt('Novo email (enter para manter): ');
-        const updated = await UsuarioService.UpdateUsuarioService(id,nome, email, 1);
+        const updated = await UsuarioService.UpdateUsuarioService(id,nome, email, usuarioLogadoId);
         console.log('Usuário atualizado:', updated);
     } catch (err: any) {
         console.error('Erro ao atualizar:', err.message);
     }
 }
 
-export async function deletar() {
+export async function deletar(usuarioLogadoId: number) {
     try {
         const id = Number(prompt('Id do usuário a deletar: '));
        
-        await UsuarioService.deletarUsuarioService(id,1);
+        await UsuarioService.deletarUsuarioService(id,usuarioLogadoId);
         console.log('Usuário deletado.');
     } catch (err: any) {
         console.error('Erro ao deletar:', err.message);
