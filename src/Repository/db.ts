@@ -84,7 +84,6 @@ export async function dbInit() {
         `
     );
 }
-dbInit();
 
 export async function cadastrar_tag(tag: Tag){
     const db = await dbPromisse
@@ -269,7 +268,8 @@ export async function listar_transacoes_por_usuario_id(usuarioId: number): Promi
     const db = await dbPromisse;
     return db.all<Transacao[]>(
         `SELECT t.* FROM transacoes t
-         JOIN contas c ON t.conta_id = c.id`,
+         JOIN contas c ON t.conta_id = c.id
+         WHERE c.usuario_id = ?`,
         usuarioId
     );
 }

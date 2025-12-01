@@ -5,8 +5,8 @@ import { cadastrar_tag, delete_tag, listar_todas_tags } from "../Repository/db";
 
 export async function CadastrarTagService(tag: Tag, usuarioLogadoId: number) {
     
-    if(tag.nome.length > 15) {
-        return console.log("O nome da tag deve ter no máximo 15 caracteres.");
+    if(tag.nome.length > 25) {
+        return console.log("O nome da tag deve ter no máximo 25 caracteres.");
     }
     
     await cadastrar_tag(tag);

@@ -1,3 +1,4 @@
+import { menuPrincipal } from '..';
 import Usuario from '../Model/Usuario';
 import * as UsuarioService from '../Services/UsuarioService';
 import PromptSync from 'prompt-sync';
@@ -21,8 +22,7 @@ export async function menuUsuario(usuarioLogadoId: number) {
             case '3': await listarPorId(); break;
             case '4': await atualizar(usuarioLogadoId); break;
             case '5': await deletar(usuarioLogadoId); break;
-            case '6': await login(); break;
-            case '0': return;
+            case '0': return menuPrincipal();
             default: console.log('Opção inválida.');
         }
     }

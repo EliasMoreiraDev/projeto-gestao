@@ -7,10 +7,17 @@ import PromptSync from 'prompt-sync';
 
 const prompt = PromptSync();
 
-async function menuPrincipal() {
+
+
+export async function menuPrincipal() {
+    let logado = false;
+    let usuarioLogadoId: number | undefined = undefined;
     while (true) {
-        const usuarioLogadoId = await login();
+        if(logado === false){
+           usuarioLogadoId = await login();
+        };
         if (usuarioLogadoId) {
+            logado = true;
             console.log('\n=== MENU PRINCIPAL ===');
             console.log('1 - Usuário');
             console.log('2 - Conta');
@@ -22,18 +29,23 @@ async function menuPrincipal() {
 
             switch (opt) {
                 case '1':
+                    console.clear();
                     await menuUsuario(usuarioLogadoId);
                     break;
                 case '2':
+                    console.clear();
                     await menuConta(usuarioLogadoId);
                     break;
                 case '3':
+                    console.clear();
                     await menuCategoria(usuarioLogadoId);
                     break;
                 case '4':
+                    console.clear();
                     await menuTag(usuarioLogadoId);
                     break;
                 case '5':
+                    console.clear();
                     await menuTransacao(usuarioLogadoId);
                     break;
                 case '0':
